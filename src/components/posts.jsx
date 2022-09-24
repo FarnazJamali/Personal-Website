@@ -1,5 +1,6 @@
 import Axios from "axios";
 import React, { Component } from "react";
+import Post from "./post";
 class Posts extends Component {
   state = {
     posts: [],
@@ -40,36 +41,11 @@ class Posts extends Component {
         </button>
         <div className="row row-cols-1 row-cols-md-2 g-4">
           {posts.map((post, index) => (
-            <div className="card-group" key={index}>
-              <div className="card">
-                {/* <img className="placeholder" alt="..." /> */}
-                <div className="card-body">
-                  <h5 className="card-title">{post.title}</h5>
-                  <p className="card-text">{post.body}</p>
-                  <p>
-                    {/* Button for Comments */}
-
-                    <button
-                      className="btn btn-primary"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={`#comments${post.id}`}
-                      aria-expanded="false"
-                      aria-controls="collapseExample"
-                    >
-                      Comments
-                    </button>
-                  </p>
-                  <div className="collapse" id={`comments${post.id}`}>
-                    {this.showComments(post.id).map((comments) => (
-                      <div className="card card-body" key={comments.id}>
-                        {comments.body}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Post
+              postData={post}
+              showComments={this.showComments(post.id)}
+              key={index}
+            />
           ))}
         </div>
       </React.Fragment>
