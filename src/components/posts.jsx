@@ -21,12 +21,30 @@ class Posts extends Component {
   };
   handleAddPost = async () => {
     const newPost = { title: "a", body: "b" };
-    const addPosts = await Axios.post(
+    const { data: addPosts } = await Axios.post(
       "https://jsonplaceholder.typicode.com/posts",
       newPost
     );
-    const posts = [newPost, ...this.state.posts];
+    const posts = [addPosts, ...this.state.posts];
     this.setState({ posts });
+  };
+  handleUpdate = async (post) => {
+    post.title = "Upadated!";
+    const { data: updatePosts } = await Axios.put(
+      `https://jsonplaceholder.typicode.com/posts/${post.id}`,
+      post
+    );
+    const posts = [...this.state.posts];
+    const index = posts.indexOf(post);
+    posts[index] = { ...updatePosts };
+    this.setState(posts);
+    // console.log(post);
+  };
+  handleDelete = async (postId) => {
+    await Axios.delete(`https://jsonplaceholder.typicode.com/posts/${postId}`);
+    const posts = this.state.posts.filter((p) => p.id !== postId);
+    this.setState({ posts });
+    console.log(posts);
   };
   render() {
     const { posts } = this.state;
@@ -44,6 +62,8 @@ class Posts extends Component {
             <Post
               postData={post}
               showComments={this.showComments(post.id)}
+              onUpdate={this.handleUpdate}
+              onDelete={this.handleDelete}
               key={index}
             />
           ))}

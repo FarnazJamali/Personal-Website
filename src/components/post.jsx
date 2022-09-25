@@ -2,7 +2,7 @@ import React, { Component } from "react";
 class Post extends Component {
   state = {};
   render() {
-    const { postData: post, showComments } = this.props;
+    const { postData: post, showComments, onUpdate, onDelete } = this.props;
 
     return (
       <>
@@ -21,6 +21,18 @@ class Post extends Component {
                   aria-controls="collapseExample"
                 >
                   Comments
+                </button>
+                <button
+                  className="btn btn-warning mx-2"
+                  onClick={() => onUpdate(post)}
+                >
+                  Update title!
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => onDelete(post.id)}
+                >
+                  Delete!
                 </button>
               </p>
               <div className="collapse" id={`comments${post.id}`}>
